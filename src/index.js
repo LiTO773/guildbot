@@ -16,12 +16,8 @@ client.on('message', msg => {
   // Initial setup
   // Triggered by: yo!
   if (msg.content === '!hi') {
-    const permissions = actions.setupGuild(msg.guild.me.permissions.serialize())
-    if (permissions) {
-      msg.channel.send('Sup! Everything looks alright, I\'m ready to rock 🤘')
-    } else {
-      msg.channel.send('Sup! It seems like I have a few permissions missing 😕, please check if all permissions were set correctly.')
-    }
+    const permissions = msg.guild.me.permissions.serialize()
+    actions.setupGuild(msg, permissions)
   }
 })
 
