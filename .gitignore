@@ -1,0 +1,4 @@
+node_modules/
+src/token.json
+yarn.lock
+dist/
