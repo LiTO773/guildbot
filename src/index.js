@@ -13,7 +13,16 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 })
 
 client.on('message', msg => {
-  msg.reply(actions.setupGuild(msg.guild.me.permissions.serialize()))
+  // Initial setup
+  // Triggered by: yo!
+  if (msg.content === '!hi') {
+    const permissions = actions.setupGuild(msg.guild.me.permissions.serialize())
+    if (permissions) {
+      msg.channel.send('Sup! Everything looks alright, I\'m ready to rock 🤘')
+    } else {
+      msg.channel.send('Sup! It seems like I have a few permissions missing 😕, please check if all permissions were set correctly.')
+    }
+  }
 })
 
 client.login(token)
