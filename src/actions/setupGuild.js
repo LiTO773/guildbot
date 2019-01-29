@@ -33,19 +33,18 @@ const setupRooms = msg => {
 
   // Create category for text channels
   msg.guild.createChannel('Text Rooms', 'category', roomPermissions)
-    .then(category => createRooms(msg, category, roomPermissions))
     .catch(err => {
       console.error(err)
       msg.channel.send('There was an error while setting up, please check the console for more details 😕')
     })
 }
 
-const createRooms = (msg, category, roomPermissions) => {
-  msg.guild.channels
-    .filter(val => val.type === 'voice')
-    .map(async val => {
-      // SQLite associar canal à sala de voz
-      var channel = await msg.guild.createChannel(val.name, 'text', roomPermissions)
-      channel.setParent(category.id)
-    })
-}
+// const createRooms = (msg, category, roomPermissions) => {
+//   msg.guild.channels
+//     .filter(val => val.type === 'voice')
+//     .map(async val => {
+//       // SQLite associar canal à sala de voz
+//       var channel = await msg.guild.createChannel(val.name, 'text', roomPermissions)
+//       channel.setParent(category.id)
+//     })
+// }
