@@ -5,15 +5,16 @@ export default (oldVC, newVC) => {
   if (newVC !== undefined) decideAction(newVC)
 }
 
-const decideAction = vc => {
+const decideAction = async vc => {
   if (vc.members.size === 0) {
     // Empty room
+    deleteRoom(vc)
   } else if (vc.members.size === 1) {
     // New room
     states.rooms.set(vc.id, {
       originalName: vc.name,
       name: vc.name,
-      textRoom: createRoom(vc)
+      textRoom: await createRoom(vc)
     })
   }
 }
@@ -31,8 +32,15 @@ const createRoom = async vc => {
     allowed: ['READ_MESSAGES', 'SEND_MESSAGES']
   }]
 
-  var channel = await vc.guild.createChannel(vc.name, 'text', roomPermissions)
+  var channel = await vc.guild.createChannel('🔘' + vc.name, 'text', roomPermissions)
   channel.setParent(states.category)
 
   return channel.id
+}
+
+const deleteRoom = vc => {
+  var room = states.rooms.get(vc.id)
+  vc.guild.channels.get(room.textRoom).delete()
+    .catch(console.error)
+  states.rooms.delete(vc.id)
 }
