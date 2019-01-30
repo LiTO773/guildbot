@@ -1,3 +1,4 @@
+import states from '../states/states'
 import permissionsNeeded from '../helpers/permissions'
 
 // Checks if the bot has all the permissions it needs to function properly
@@ -21,7 +22,6 @@ const findMissingPermissions = (permissions) => (
 )
 
 const setupRooms = msg => {
-  // TODO connect voice channels with text channels
   // Create the permissions object
   const roomPermissions = [{
     id: msg.guild.id,
@@ -33,19 +33,11 @@ const setupRooms = msg => {
 
   // Create category for text channels
   msg.guild.createChannel('Text Rooms', 'category', roomPermissions)
-    .then(category => createRooms(msg, category, roomPermissions))
+    .then(channel => {
+      states.category = channel.id
+    })
     .catch(err => {
       console.error(err)
       msg.channel.send('There was an error while setting up, please check the console for more details 😕')
-    })
-}
-
-const createRooms = (msg, category, roomPermissions) => {
-  msg.guild.channels
-    .filter(val => val.type === 'voice')
-    .map(async val => {
-      // SQLite associar canal à sala de voz
-      var channel = await msg.guild.createChannel(val.name, 'text', roomPermissions)
-      channel.setParent(category.id)
     })
 }
