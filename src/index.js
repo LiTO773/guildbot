@@ -1,6 +1,6 @@
 import { token } from './token'
-import actions from './actions/actions'
 import Discord from 'discord.js'
+import actions from './actions/actions'
 import states from './states/states'
 const client = new Discord.Client()
 
@@ -22,17 +22,18 @@ client.on('ready', () => {
 client.on('roleUpdate', (oldR, newR) => defaultCheck(oldR.guild, false))
 client.on('guildMemberUpdate', (oldU, newU) => defaultCheck(oldU.guild, false))
 
-client.on('message', msg => {
+// Creates and deletes text rooms for voice channels
+client.on('voiceStateUpdate', (oldMember, newMember) => {
   if (!states.ready) return
-  if (msg.content === '!hi') {
-    const permissions = msg.guild.me.permissions.serialize()
-    actions.setupGuild(msg.channel, permissions)
-  }
+  actions.manageRooms(oldMember.voiceChannel, newMember.voiceChannel)
 })
 
-client.on('voiceStateUpdate', (oldMember, newMember) => {
-  if (!states.state) return
-  actions.manageRooms(oldMember.voiceChannel, newMember.voiceChannel)
+client.on('message', msg => {
+  if (!states.ready) return
+  const command = msg.content.split(' ')[0].toLowerCase()
+  if (command === '\\changename') {
+    actions.roomPool(msg)
+  }
 })
 
 client.login(token)
