@@ -14,9 +14,17 @@ const decideAction = async vc => {
     states.rooms.set(vc.id, {
       originalName: vc.name,
       name: vc.name,
+      memberCount: 1,
       textRoom: await createRoom(vc)
     })
+  } else {
+    // Joined another room
+    states.rooms.set(vc.id, {
+      ...states.rooms.get(vc.id),
+      memberCount: vc.members.size
+    })
   }
+  console.log(states.rooms)
 }
 
 const createRoom = async vc => {

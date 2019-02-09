@@ -1,6 +1,8 @@
 import states from '../states/states'
+import pollTypes from '../helpers/pollTypes'
+import polls from './polls'
 
-const roomPoll = async msg => {
+const createRoomPoll = async msg => {
   const room = await confirmRoom(msg) // gets the voice room id (useful for the state.rooms)
   if (room) { // The message came from a voice text room
     var content = msg.content.split(' ')
@@ -12,8 +14,9 @@ const roomPoll = async msg => {
     content.shift()
     const tempName = content.reduce((prev, curr) => `${prev} ${curr}`)
     msg.channel.send(`@here, <@${msg.author.id}> wants to change the room name to \`${tempName}\`
-    Does this seem like a good idea (👍)?`)
+    Does this sound like a good idea (👍)?`)
       .then(sent => sent.react('👍'))
+      .then(reaction => polls.newPoll(pollTypes.NEW_ROOM_NAME, reaction, [room, states.rooms.get(room).memberCount]))
   } else {
     msg.channel.send('You have to be in a voice channel to do that')
   }
@@ -31,4 +34,4 @@ const confirmRoom = msg => {
   })
 }
 
-export default { roomPoll }
+export default { createRoomPoll }

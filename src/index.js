@@ -32,8 +32,14 @@ client.on('message', msg => {
   if (!states.ready) return
   const command = msg.content.split(' ')[0].toLowerCase()
   if (command === '\\changename') {
-    actions.roomPool(msg)
+    actions.createRoomPoll(msg)
   }
 })
+
+// client.on('messageReactionAdd', (msgReaction, user) => {
+//   console.log(msgReaction)
+//   console.log('=============')
+//   console.log(user)
+// })
 
 client.login(token)

@@ -4,5 +4,6 @@
 
 export default {
   ready: false,
-  rooms: new Map() // What rooms are being used
+  rooms: new Map(), // What rooms are being used
+  polls: new Map() // Stores messages that relate to a poll
 }
