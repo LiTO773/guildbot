@@ -1,4 +1,5 @@
-import states from '../states/states'
+import store from '../reducers/store'
+import {  }
 import permissionsNeeded from '../helpers/permissions'
 
 // Checks if the bot has all the permissions it needs to function properly

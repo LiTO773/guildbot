@@ -1,6 +1,6 @@
 import { token } from './token'
 import Discord from 'discord.js'
-import actions from './actions/actions'
+import actions from './functions/functions'
 import states from './states/states'
 const client = new Discord.Client()
 

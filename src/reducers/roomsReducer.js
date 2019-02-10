@@ -1,6 +1,6 @@
 // Rooms reducer stores all currently used rooms, as well as their origina name,
 // current name, members and associated text room
-import { MEMBER_SWAP, CREATE_ROOM, DELETE_ROOM } from '../actions/types'
+import { MEMBER_SWAP, CREATE_ROOM, DELETE_ROOM } from '../actions/actions'
 
 export default (state = {}, action) => {
   const newState = { ...state }

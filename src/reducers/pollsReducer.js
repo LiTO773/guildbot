@@ -1,11 +1,11 @@
 // Polls reducer controls all polls, including the type, current votes and
 // votes needed
 
-import { CREATE_POLL, ADD_VOTE, REMOVE_VOTE, DELETE_POLL } from '../actions/types'
+import { CREATE_POLL, ADD_VOTE, REMOVE_VOTE, DELETE_POLL } from '../actions/actions'
 
 export default (state = {}, action) => {
   const newState = { ...state }
-  const emotePos
+  var emotePos
 
   switch (action.type) {
     case CREATE_POLL:

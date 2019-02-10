@@ -1,6 +1,6 @@
 // Ready reducer controls if the bot has proper permissions to work
 // If not, none of the commands will run
-import { CORRECT_PERMISSIONS, INCORRECT_PERMISSIONS } from '../actions/types'
+import { CORRECT_PERMISSIONS, INCORRECT_PERMISSIONS } from '../actions/actions'
 
 export default (state = { ready: false }, action) => {
   switch (action.type) {
