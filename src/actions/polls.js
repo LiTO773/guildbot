@@ -18,4 +18,10 @@ const newPoll = (type, msgReaction, extraInfo) => {
   }
 }
 
-export default { newPoll }
+const updatePoll = msgReaction => {
+  if (states.polls.has(msgReaction.message.id)) {
+    states.polls.set()
+  }
+}
+
+export default { newPoll, updatePoll }

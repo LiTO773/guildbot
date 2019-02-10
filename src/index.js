@@ -36,10 +36,10 @@ client.on('message', msg => {
   }
 })
 
-// client.on('messageReactionAdd', (msgReaction, user) => {
-//   console.log(msgReaction)
-//   console.log('=============')
-//   console.log(user)
-// })
+client.on('messageReactionAdd', (msgReaction, user) => {
+  if (user.id !== client.user.id) { // Checks if it wasn't a bot reaction
+    
+  }
+})
 
 client.login(token)
