@@ -2,7 +2,7 @@
 // If not, none of the commands will run
 import { CORRECT_PERMISSIONS, INCORRECT_PERMISSIONS } from '../actions/actions'
 
-export default (state = { ready: false }, action) => {
+export default (state = { ready: true }, action) => {
   switch (action.type) {
     case CORRECT_PERMISSIONS:
       return { ready: true }

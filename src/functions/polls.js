@@ -1,5 +1,5 @@
 import states from '../states/states'
-import pollTypes from '../helpers/pollTypes'
+import pollTypes from '../actions/pollTypes'
 
 const newPoll = (type, msgReaction, extraInfo) => {
   switch (type) {
