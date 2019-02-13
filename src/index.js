@@ -5,12 +5,14 @@ import states from './states/states'
 import store from './reducers/store'
 const client = new Discord.Client()
 
+var ready = true
+
 // Permission check
 const defaultCheck = firstTime => {
   const guild = client.guilds.first()
   const permissions = guild.me.permissions.serialize()
   const owner = guild.owner
-  actions.setupGuild(owner, permissions, firstTime)
+  ready = actions.setupGuild(owner, permissions, firstTime)
 }
 
 client.on('ready', () => {
@@ -23,12 +25,12 @@ client.on('guildMemberUpdate', () => defaultCheck(false))
 
 // Creates and deletes text rooms for voice channels
 client.on('voiceStateUpdate', (oldMember, newMember) => {
-  if (!states.ready) return
+  if (!ready) return
   actions.manageRooms(oldMember.voiceChannel, newMember.voiceChannel)
 })
 
 client.on('message', msg => {
-  if (!states.ready) return
+  if (ready) return
   const command = msg.content.split(' ')[0].toLowerCase()
   if (command === '\\changename') {
     actions.createRoomPoll(msg)

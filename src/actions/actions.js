@@ -5,7 +5,8 @@ export const CORRECT_PERMISSIONS = 'CORRECT_PERMISSIONS'
 export const INCORRECT_PERMISSIONS = 'INCORRECT_PERMISSIONS'
 
 // rooms
-export const MEMBER_SWAP = 'MEMBER_SWAP'
+export const MEMBER_JOIN = 'MEMBER_JOIN'
+export const MEMBER_LEFT = 'MEMBER_LEFT'
 export const CREATE_ROOM = 'CREATE_ROOM'
 export const DELETE_ROOM = 'DELETE_ROOM'
 
@@ -19,7 +20,8 @@ export const DELETE_POLL = 'DELETE_POLL'
 export const correctPermissions = () => store.dispatch({ type: CORRECT_PERMISSIONS })
 export const incorrectPermissions = () => store.dispatch({ type: INCORRECT_PERMISSIONS })
 
-export const memberSwap = (oldRoomId, newRoomId) => store.dispatch({ type: MEMBER_SWAP, oldRoomId, newRoomId })
+export const memberJoin = roomId => store.dispatch({ type: MEMBER_JOIN, roomId })
+export const memberLeft = roomId => store.dispatch({ type: MEMBER_LEFT, roomId })
 export const createRoom = (roomId, name, textRoom) => store.dispatch({ type: CREATE_ROOM, roomId, name, textRoom })
 export const deleteRoom = roomId => store.dispatch({ type: DELETE_ROOM, roomId })
 

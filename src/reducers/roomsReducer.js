@@ -1,14 +1,17 @@
 // Rooms reducer stores all currently used rooms, as well as their origina name,
 // current name, members and associated text room
-import { MEMBER_SWAP, CREATE_ROOM, DELETE_ROOM } from '../actions/actions'
+import { MEMBER_JOIN, MEMBER_LEFT, CREATE_ROOM, DELETE_ROOM } from '../actions/actions'
 
 export default (state = {}, action) => {
   const newState = { ...state }
 
   switch (action.type) {
-    case MEMBER_SWAP:
-      newState[action.oldRoomId].members -= 1
-      newState[action.newRoomId].members += 1
+    case MEMBER_JOIN:
+      newState[action.roomId].members += 1
+      return newState
+
+    case MEMBER_LEFT:
+      newState[action.roomId].members -= 1
       return newState
 
     case DELETE_ROOM:
