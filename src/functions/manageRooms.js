@@ -1,16 +1,15 @@
 import { memberJoin, memberLeft, createRoom, deleteRoom } from '../actions/actions'
+import store from '../reducers/store'
 
 export default async (oldVC, newVC) => {
   if (oldVC !== undefined) {
     // The user left the room, and it might be empty now
-    console.log(oldVC.members.size)
     if (oldVC.members.size !== 0) {
       memberLeft(oldVC.id)
     } else {
-      deleteRoom(oldVC.id)
+      removeRoom(oldVC)
     }
   }
-  console.log(newVC.members.size)
   if (newVC !== undefined) {
     // The user joined a room, or joined an empty room
     if (newVC.members.size !== 1) {
@@ -21,25 +20,6 @@ export default async (oldVC, newVC) => {
     }
   }
 }
-
-// const decideAction = async vc => {
-//   if (oldVC !==)
-//   console.log(vc.members.size)
-//   if (vc.members.size === 0) {
-//     // Empty room
-//     // deleteRoom(vc)
-//   } else if (vc.members.size === 1) {
-//     console.log('gucci')
-//     createRoom(vc.id, vc.name, await createTextRoom(vc))
-//   } else {
-//     // Joined another room
-//     states.rooms.set(vc.id, {
-//       ...states.rooms.get(vc.id),
-//       memberCount: vc.members.size
-//     })
-//   }
-//   console.log(states.rooms)
-// }
 
 const createTextRoom = async vc => {
   // Create the permissions object
@@ -59,9 +39,9 @@ const createTextRoom = async vc => {
   return channel.id
 }
 
-// const deleteRoom = vc => {
-//   var room = states.rooms.get(vc.id)
-//   vc.guild.channels.get(room.textRoom).delete()
-//     .catch(console.error)
-//   states.rooms.delete(vc.id)
-// }
+const removeRoom = vc => {
+  var textRoom = store.getState().rooms[vc.id].textRoom
+  vc.guild.channels.get(textRoom).delete()
+    .catch(console.error)
+  deleteRoom(vc.id)
+}
