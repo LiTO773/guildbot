@@ -1,6 +1,6 @@
 import { token } from './token'
 import Discord from 'discord.js'
-import actions from './functions/functions'
+import functions from './functions/functions'
 import store from './reducers/store'
 const client = new Discord.Client()
 
@@ -11,7 +11,7 @@ const defaultCheck = firstTime => {
   const guild = client.guilds.first()
   const permissions = guild.me.permissions.serialize()
   const owner = guild.owner
-  ready = actions.setupGuild(owner, permissions, firstTime)
+  ready = functions.setupGuild(owner, permissions, firstTime)
 }
 
 client.on('ready', () => {
@@ -25,20 +25,20 @@ client.on('guildMemberUpdate', () => defaultCheck(false))
 // Creates and deletes text rooms for voice channels
 client.on('voiceStateUpdate', (oldMember, newMember) => {
   if (!ready) return
-  actions.manageRooms(oldMember.voiceChannel, newMember.voiceChannel)
+  functions.manageRooms(oldMember.voiceChannel, newMember.voiceChannel)
 })
 
 client.on('message', msg => {
   if (!ready) return
   const command = msg.content.split(' ')[0].toLowerCase()
   if (command === '\\changename') {
-    actions.createRoomNameChangePoll(msg)
+    functions.createRoomNameChangePoll(msg)
   }
 })
 
 client.on('messageReactionAdd', (msgReaction, user) => {
   if (user.id !== client.user.id) { // Checks if it wasn't a bot reaction
-    // TODO
+    functions.newReaction(msgReaction)
   }
 })
 
