@@ -5,5 +5,5 @@ import editRooms from './editRooms'
 export default {
   setupGuild,
   manageRooms,
-  createRoomPoll: editRooms.createRoomPoll
+  createRoomNameChangePoll: editRooms.createRoomNameChangePoll
 }

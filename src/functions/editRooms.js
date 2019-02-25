@@ -1,9 +1,8 @@
-import states from '../states/states'
-import pollTypes from '../actions/pollTypes'
-import polls from './polls'
+import store from '../reducers/store'
+import { roomNameChangePoll } from '../actions/actions'
 
-const createRoomPoll = async msg => {
-  const room = await confirmRoom(msg) // gets the voice room id (useful for the state.rooms)
+const createRoomNameChangePoll = async msg => {
+  const room = await confirmRoom(msg) // gets the voice room (useful for the state.rooms)
   if (room) { // The message came from a voice text room
     var content = msg.content.split(' ')
     if (content.length <= 1) {
@@ -16,7 +15,7 @@ const createRoomPoll = async msg => {
     msg.channel.send(`@here, <@${msg.author.id}> wants to change the room name to \`${tempName}\`
     Does this sound like a good idea (👍)?`)
       .then(sent => sent.react('👍'))
-      .then(reaction => polls.newPoll(pollTypes.NEW_ROOM_NAME, reaction, [room, states.rooms.get(room).memberCount]))
+      .then(reaction => roomNameChangePoll(reaction.message.id, room.members / 2))
   } else {
     msg.channel.send('You have to be in a voice channel to do that')
   }
@@ -25,13 +24,14 @@ const createRoomPoll = async msg => {
 // Confirms the message was from a voice text room
 const confirmRoom = msg => {
   return new Promise((resolve, reject) => {
-    states.rooms.forEach((val, key) => {
-      if (val.textRoom === msg.channel.id) {
-        resolve(key)
+    const roomsState = store.getState().rooms
+    for (const key in roomsState) {
+      if (roomsState[key].textRoom === msg.channel.id) {
+        resolve(roomsState[key])
       }
-    })
+    }
     resolve(null)
   })
 }
 
-export default { createRoomPoll }
+export default { createRoomNameChangePoll }

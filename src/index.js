@@ -29,10 +29,10 @@ client.on('voiceStateUpdate', (oldMember, newMember) => {
 })
 
 client.on('message', msg => {
-  if (ready) return
+  if (!ready) return
   const command = msg.content.split(' ')[0].toLowerCase()
   if (command === '\\changename') {
-    actions.createRoomPoll(msg)
+    actions.createRoomNameChangePoll(msg)
   }
 })
 
