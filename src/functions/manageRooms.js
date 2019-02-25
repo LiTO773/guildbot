@@ -2,6 +2,10 @@ import { memberJoin, memberLeft, createRoom, deleteRoom } from '../actions/actio
 import store from '../reducers/store'
 
 export default async (oldVC, newVC) => {
+  if (oldVC !== undefined && newVC !== undefined) {
+    // Check if the user was muted or deafened
+    if (oldVC.id === newVC.id) return
+  }
   if (oldVC !== undefined) {
     // The user left the room, and it might be empty now
     if (oldVC.members.size !== 0) {
