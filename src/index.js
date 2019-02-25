@@ -1,45 +1,50 @@
 import { token } from './token'
 import Discord from 'discord.js'
-import actions from './actions/actions'
-import states from './states/states'
+import actions from './functions/functions'
+import store from './reducers/store'
 const client = new Discord.Client()
 
+var ready = true
+
 // Permission check
-const defaultCheck = (guild, firstTime) => {
+const defaultCheck = firstTime => {
+  const guild = client.guilds.first()
   const permissions = guild.me.permissions.serialize()
-  const channel = guild.defaultChannel
-  actions.setupGuild(channel, permissions, firstTime)
+  const owner = guild.owner
+  ready = actions.setupGuild(owner, permissions, firstTime)
 }
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
-  // Check permissions [SO FAR IT IS ONLY EXPECTING ONE GUILD]
-  client.guilds.forEach(guild => {
-    defaultCheck(guild, true)
-  })
+  defaultCheck(true)
 })
 
-client.on('roleUpdate', (oldR, newR) => defaultCheck(oldR.guild, false))
-client.on('guildMemberUpdate', (oldU, newU) => defaultCheck(oldU.guild, false))
+client.on('roleUpdate', () => defaultCheck(false))
+client.on('guildMemberUpdate', () => defaultCheck(false))
 
 // Creates and deletes text rooms for voice channels
 client.on('voiceStateUpdate', (oldMember, newMember) => {
-  if (!states.ready) return
+  if (!ready) return
   actions.manageRooms(oldMember.voiceChannel, newMember.voiceChannel)
 })
 
 client.on('message', msg => {
-  if (!states.ready) return
+  if (!ready) return
   const command = msg.content.split(' ')[0].toLowerCase()
   if (command === '\\changename') {
-    actions.createRoomPoll(msg)
+    actions.createRoomNameChangePoll(msg)
   }
 })
 
-// client.on('messageReactionAdd', (msgReaction, user) => {
-//   console.log(msgReaction)
-//   console.log('=============')
-//   console.log(user)
-// })
+client.on('messageReactionAdd', (msgReaction, user) => {
+  if (user.id !== client.user.id) { // Checks if it wasn't a bot reaction
+    // TODO
+  }
+})
+
+// Subscriptions
+store.subscribe(() => {
+  console.log(JSON.stringify(store.getState(), undefined, 2))
+})
 
 client.login(token)
