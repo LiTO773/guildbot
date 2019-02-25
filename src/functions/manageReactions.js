@@ -1,5 +1,5 @@
 import store from '../reducers/store'
-import { addVote } from '../actions/actions'
+import { addVote, removeVote } from '../actions/actions'
 
 const newReaction = msgReaction => {
   if (store.getState().polls[msgReaction.message.id] !== undefined) {
@@ -8,4 +8,11 @@ const newReaction = msgReaction => {
   }
 }
 
-export default { newReaction }
+const removeReaction = msgReaction => {
+  if (store.getState().polls[msgReaction.message.id] !== undefined) {
+    // It's a poll
+    removeVote(msgReaction.message.id, msgReaction.emoji.name)
+  }
+}
+
+export default { newReaction, removeReaction }

@@ -42,6 +42,12 @@ client.on('messageReactionAdd', (msgReaction, user) => {
   }
 })
 
+client.on('messageReactionRemove', (msgReaction, user) => {
+  if (user.id !== client.user.id) { // Checks if it wasn't a bot reaction
+    functions.removeReaction(msgReaction)
+  }
+})
+
 // Subscriptions
 store.subscribe(() => {
   console.log(JSON.stringify(store.getState(), undefined, 2))
