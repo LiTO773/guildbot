@@ -44,7 +44,7 @@ client.on('messageReactionAdd', (msgReaction, user) => {
 
 // Subscriptions
 store.subscribe(() => {
-  console.log(store.getState())
+  console.log(JSON.stringify(store.getState(), undefined, 2))
 })
 
 client.login(token)
