@@ -54,3 +54,5 @@ store.subscribe(() => {
 })
 
 client.login(token)
+
+export default client
