@@ -1,6 +1,7 @@
 // Rooms reducer stores all currently used rooms, as well as their origina name,
 // current name, members and associated text room
 import { MEMBER_JOIN, MEMBER_LEFT, CREATE_ROOM, DELETE_ROOM } from '../actions/actions'
+import { NEW_ROOM_NAME } from '../actions/pollTypes'
 
 export default (state = {}, action) => {
   const newState = { ...state }
@@ -25,6 +26,10 @@ export default (state = {}, action) => {
         members: 1,
         textRoom: action.textRoom
       }
+      return newState
+    
+    case NEW_ROOM_NAME:
+      newState[action.roomId].name = action.newName
       return newState
 
     default:

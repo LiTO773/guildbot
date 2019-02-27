@@ -54,7 +54,7 @@ const removeRoom = vc => {
 
 const removePolls = (polls, vc) => {
   for (const key in polls) {
-    if (polls[key].payload.voiceId == vc.id) {
+    if (polls[key].payload.roomId === vc.id) {
       deletePoll(key)
     }
   }
