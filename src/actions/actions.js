@@ -25,7 +25,7 @@ export const memberLeft = roomId => store.dispatch({ type: MEMBER_LEFT, roomId }
 export const createRoom = (roomId, name, textRoom) => store.dispatch({ type: CREATE_ROOM, roomId, name, textRoom })
 export const deleteRoom = roomId => store.dispatch({ type: DELETE_ROOM, roomId })
 
-export const roomNameChangePoll = (messageId, votesNeeded) => store.dispatch({ type: CREATE_POLL, messageId, emoteId: '👍', pollType: NEW_ROOM_NAME, votesNeeded })
+export const roomNameChangePoll = (messageId, votesNeeded, textId, voiceId) => store.dispatch({ type: CREATE_POLL, messageId, emoteId: '👍', pollType: NEW_ROOM_NAME, votesNeeded, payload: { textId, voiceId } })
 export const addVote = (messageId, emoteId) => store.dispatch({ type: ADD_VOTE, messageId, emoteId })
 export const removeVote = (messageId, emoteId) => store.dispatch({ type: REMOVE_VOTE, messageId, emoteId })
 export const deletePoll = messageId => store.dispatch({ type: DELETE_POLL, messageId })

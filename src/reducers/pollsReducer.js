@@ -15,7 +15,8 @@ export default (state = {}, action) => {
         pollType: action.pollType,
         votesNeeded: {
           [action.emoteId]: action.votesNeeded
-        }
+        },
+        payload: action.payload // Stores the necessary payload from the action
       }
       return newState
     case ADD_VOTE:

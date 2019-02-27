@@ -9,13 +9,14 @@ const createRoomNameChangePoll = async msg => {
       msg.channel.send('Please specify the new room name, like this: `\\changename <new name>`')
       return
     }
+    console.log(room)
     // Get new room name
     content.shift()
     const tempName = content.reduce((prev, curr) => `${prev} ${curr}`)
     msg.channel.send(`@here, <@${msg.author.id}> wants to change the room name to \`${tempName}\`
     Does this sound like a good idea (👍)?`)
       .then(sent => sent.react('👍'))
-      .then(reaction => roomNameChangePoll(reaction.message.id, room.members / 2))
+      .then(reaction => roomNameChangePoll(reaction.message.id, room.members / 2, msg.channel.id, room.id))
   } else {
     msg.channel.send('You have to be in a voice channel to do that')
   }
@@ -24,9 +25,10 @@ const createRoomNameChangePoll = async msg => {
 // Confirms the message was from a voice text room
 const confirmRoom = msg => {
   return new Promise((resolve, reject) => {
-    const roomsState = store.getState().rooms
+    var roomsState = store.getState().rooms
     for (const key in roomsState) {
       if (roomsState[key].textRoom === msg.channel.id) {
+        roomsState[key].id = key
         resolve(roomsState[key])
       }
     }
