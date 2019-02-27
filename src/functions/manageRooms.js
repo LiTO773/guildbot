@@ -1,4 +1,4 @@
-import { memberJoin, memberLeft, createRoom, deleteRoom } from '../actions/actions'
+import { memberJoin, memberLeft, createRoom, deleteRoom, deletePoll } from '../actions/actions'
 import store from '../reducers/store'
 
 export default async (oldVC, newVC) => {
@@ -44,8 +44,18 @@ const createTextRoom = async vc => {
 }
 
 const removeRoom = vc => {
-  var textRoom = store.getState().rooms[vc.id].textRoom
+  const currentState = store.getState()
+  var textRoom = currentState.rooms[vc.id].textRoom
   vc.guild.channels.get(textRoom).delete()
     .catch(console.error)
+  removePolls(currentState.polls, vc)
   deleteRoom(vc.id)
+}
+
+const removePolls = (polls, vc) => {
+  for (const key in polls) {
+    if (polls[key].payload.voiceId == vc.id) {
+      deletePoll(key)
+    }
+  }
 }
