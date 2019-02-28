@@ -1,4 +1,5 @@
 import { memberJoin, memberLeft, createRoom, deleteRoom, deletePoll } from '../actions/actions'
+import client from '../client'
 import store from '../reducers/store'
 
 export default async (oldVC, newVC) => {
@@ -44,11 +45,13 @@ const createTextRoom = async vc => {
 }
 
 const removeRoom = vc => {
-  const currentState = store.getState()
-  var textRoom = currentState.rooms[vc.id].textRoom
+  const currentRoom = store.getState().rooms[vc.id];
+  var textRoom = currentRoom.textRoom
+  // reset name
+  client.guilds.first().channels.get(vc.id).setName(currentRoom.originalName)
   vc.guild.channels.get(textRoom).delete()
     .catch(console.error)
-  removePolls(currentState.polls, vc)
+  removePolls(currentRoom.polls, vc)
   deleteRoom(vc.id)
 }
 

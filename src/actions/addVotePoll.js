@@ -1,7 +1,7 @@
 import { addVote, changeRoomName, deletePoll } from '../actions/actions'
 import { NEW_ROOM_NAME } from '../actions/pollTypes'
 import store from '../reducers/store'
-import client from '../index'
+import client from '../client'
 
 // Serves as a middleman beforing adding a vote
 // Checks if the poll reaches it's goal and reacts accordingly to it's type
@@ -22,6 +22,6 @@ const newRoomName = poll => {
   const textId = poll.payload.textId
   const newName = poll.payload.newName
   changeRoomName(roomId, newName)
-  client.guilds.first().channels.get(textId).setName(newName)
+  client.guilds.first().channels.get(textId).setName('🔘' + newName)
   client.guilds.first().channels.get(roomId).setName(newName)
 }

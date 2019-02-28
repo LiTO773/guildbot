@@ -1,8 +1,6 @@
-import { token } from './token'
-import Discord from 'discord.js'
+import client from './client'
 import functions from './functions/functions'
 import store from './reducers/store'
-const client = new Discord.Client()
 
 var ready = true
 
@@ -52,7 +50,3 @@ client.on('messageReactionRemove', (msgReaction, user) => {
 store.subscribe(() => {
   console.log(JSON.stringify(store.getState(), undefined, 2))
 })
-
-client.login(token)
-
-export default client
